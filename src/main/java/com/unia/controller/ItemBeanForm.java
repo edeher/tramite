@@ -21,7 +21,7 @@ import com.unia.service.ITipoTramiteService;
 
 
 
-//combos en paginas diferentes
+//llenado de combos en paginas diferentes
 
 @Named
 @ViewScoped
