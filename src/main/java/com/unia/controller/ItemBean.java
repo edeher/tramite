@@ -14,6 +14,8 @@ import org.omnifaces.util.Faces;
 import com.unia.model.ItemTipoTramite;
 import com.unia.service.IItemTipoTramiteService;
 
+//llego a linu y sale
+
 @Named
 @ViewScoped
 public class ItemBean implements Serializable{
