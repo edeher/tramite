@@ -16,6 +16,10 @@ import com.unia.service.IAreaService;
 import com.unia.service.IItemTipoTramiteService;
 import com.unia.service.ITipoTramiteService;
 
+
+
+
+
 @Named
 @ViewScoped
 public class ItemTipoTramiteBean implements Serializable{
