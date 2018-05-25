@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h2>Items</h2>
+			<h:form id="frm">
+				<p:commandButton value="Nuevo" oncomplete="PF('wdlgItems').show();" />
+				<p:dataTable id="dtItem" widgetVar="formatosTable"
+					value="#{itemTipoTramiteBean.lstItemsTiposTramite}" var="t">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{t.idItemTipoTramite}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.idItemTipoTramite}" />
+					</p:column>
+					<p:column headerText="Area" filterBy="#{t.area.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.area.nombre}" />
+					</p:column>
+					<p:column headerText="Tipo de tramite"
+						filterBy="#{t.tipotramite.descripcion}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{t.tipotramite.descripcion}" />
+					</p:column>
+					<p:column headerText="item" filterBy="#{t.item}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.item}" />
+					</p:column>
+					<p:column headerText="Plazo" filterBy="#{t.plazo}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.plazo}" />
+					</p:column>
+					<p:column style="width:30px">
+						<p:commandLink
+							actionListener="#{itemTipoTramiteBean.seleccionar(t)}"
+							oncomplete="PF('wdlgItems').show();" update="frm:dlgItems">
+							<p:graphicImage library="images" name="edit.jpg" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+
+
+				<p:dialog id="dlgItems" widgetVar="wdlgItems" modal="true">
+					<p:panelGrid columns="2">
+
+						<p:outputLabel value="Area" style="font-weight:bold;" />
+						<p:selectOneMenu id="cboArea" value="#{itemTipoTramiteBean.area}" 
+						converter="omnifaces.SelectItemsConverter">
+							<f:selectItem
+								itemLabel="--seleccione--"
+								itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItems value="#{itemTipoTramiteBean.lstArea}" var="ar"
+								itemLabel="#{ar.nombre}" itemValue="#{ar}" />
+						</p:selectOneMenu>
+						
+						<p:message for="cboArea" />
+						<p:tooltip for="cboArea" value="Elija un Area para el Item" />
+						
+
+						<p:outputLabel value="tipo tramite" style="font-weight:bold;" />
+						<p:selectOneMenu id="cboTipoTra" value="#{itemTipoTramiteBean.tipotramite}"
+							converter="omnifaces.SelectItemsConverter">
+							<f:selectItem
+								itemLabel="--seleccione--"
+								itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItems value="#{itemTipoTramiteBean.lstTiposTramite}" var="ti"
+								itemLabel="#{ti.descripcion}" itemValue="#{ti}" />
+						</p:selectOneMenu>
+						
+
+						<p:message for="cboTipoTra" />
+						<p:tooltip for="cboTipoTra" value="Elija el tipo de tramite para el Item" />
+
+
+						<p:outputLabel value="item" />
+						<p:inputText value="#{itemTipoTramiteBean.itemtipotramite.item}" />
+						
+						<p:outputLabel value="decipcion" />
+						<p:inputText value="#{itemTipoTramiteBean.itemtipotramite.plazo}" />
+
+
+
+					</p:panelGrid>
+
+					<h:panelGroup layout="block" style="float: right">
+						<p:commandButton value="Aceptar"
+							actionListener="#{itemTipoTramiteBean.operar()}" ajax="false"
+							action="itemtipotramite?faces-redirect=true" />
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wdlgItems').hide();" />
+					</h:panelGroup>
+
+
+				</p:dialog>
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

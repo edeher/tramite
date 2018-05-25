@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form id="frm" enctype="multipart/form-data">
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+
+				<p:commandButton value="Nuevo" onclick="PF('dlg1').show();"
+					actionListener="#{menuItemBean.limpiaControles()}"
+					update="frm:dlgMenu" />
+				<p:dataTable id="dtMenus" widgetVar="formatosTable"
+					value="#{menuBean.lstMenus}" rows="10" var="menu">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{menu.idMenu}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{menu.idMenu}" />
+					</p:column>
+
+					<p:column headerText="nombres" filterBy="#{menu.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{menu.nombre}" />
+					</p:column>
+					<p:column>
+						<p:commandLink value="Modificar"
+							actionListener="#{menuBean.seleccionar(menu)}"
+							oncomplete="PF('dlg1').show();" update="frm:dlgMenu">
+
+						</p:commandLink>
+
+					</p:column>
+
+
+
+				</p:dataTable>
+
+
+				<p:dialog id="dlgMenu" header="#{menuBean.titulo}" widgetVar="dlg1"
+					minHeight="40" modal="true" resizable="false" closeOnEscape="true">
+
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Nombres" />
+							<p:inputText value="#{menuBean.menu.nombre}" />
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<p:outputLabel value="nombre" />
+							<p:inputText value="#{menuBean.menuItem.nombre}" />
+							<p:outputLabel value="url" />
+							<p:inputText value="#{menuBean.menuItem.url}" />
+
+							<p:commandButton value="agregar"
+								actionListener="#{menuBean.agregar()}" update="items" />
+							<p:dataList id="items" value="#{menuBean.lstMenuItems}"
+								var="item">
+								<p:outputLabel value="#{item.nombre}" />
+					-
+					<p:outputLabel value="#{item.url}" />
+
+								<p:commandLink value="Remover"
+									actionListener="#{menuBean.remover(item)}" update="items">
+									<p:confirm header="Confirmation"
+										message="Desea Remover el Elemento?" icon="ui-icon-alert" />
+								</p:commandLink>
+
+							</p:dataList>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<p:commandButton value="Aceptar"
+						actionListener="#{menuBean.operar()}" update="dtMenus"
+						oncomplete="PF('dlg1').hide();" />
+					<p:commandButton value="Cancelar" onclick="PF('dlg1').hide();"
+						immediate="true" />
+				</p:dialog>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

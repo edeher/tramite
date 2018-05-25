@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h2>Tipo Tramite</h2>
+			<h:form id="frm">
+				<p:commandButton value="Nuevo"
+					oncomplete="PF('wdlgTipoTra').show();" />
+
+				<p:dataTable id="dtTipoTra" widgetVar="formatosTable"
+					value="#{tipoTramiteBean.lstTiposTramites}" var="t">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{t.idTipoTramite}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.idTipoTramite}" />
+					</p:column>
+					<p:column headerText="Cant de Movimientos"
+						filterBy="#{t.cantMovimiento}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{t.cantMovimiento}" />
+					</p:column>
+					<p:column headerText="Descripcion" filterBy="#{t.descripcion}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{t.descripcion}" />
+					</p:column>
+					<p:column style="width:30px">
+						<p:commandLink actionListener="#{tipoTramiteBean.seleccionar(t)}"
+							oncomplete="PF('wdlgTipoTra').show();" update="frm:dlgTipoTra">
+							<p:graphicImage library="images" name="edit.jpg" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				
+				<p:dialog id="dlgTipoTra" widgetVar="wdlgTipoTra" modal="true">
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="2">
+							<p:outputLabel value="Descripcion" />
+							<p:inputText value="#{tipoTramiteBean.tipotramite.descripcion}" />
+							<p:outputLabel value="Cant Movimientos" />
+							<p:inputText
+								value="#{tipoTramiteBean.tipotramite.cantMovimiento}" />
+						</p:panelGrid>
+						<p:panelGrid columns="2">
+							<p:dataList id="itemtipotramite"
+								value="#{tipoTramiteBean.lstItemTipoTramite}" var="item"
+								rows="5" paginator="true"
+								emptyMessage="Sin Item de tipo tramite">
+								<p:outputLabel value="#{item.plazo}" />-
+							    <p:outputLabel value="#{item.item}" />
+
+							</p:dataList>
+						</p:panelGrid>
+					</p:panelGrid>
+					<h:panelGroup layout="block" style="float: right">
+						<p:commandButton value="Aceptar"
+							actionListener="#{tipoTramiteBean.operar()}" ajax="false"
+							action="tipotramite?faces-redirect=true" />
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wdlgTipoTra').hide();" />
+					</h:panelGroup>
+
+				</p:dialog>
+
+
+			</h:form>
+
+		</ui:define>
+
+	</ui:composition>
+
+</body>
+</html>

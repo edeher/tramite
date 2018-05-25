@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+     > 
+
+<h:head></h:head> 
+<body> 
+<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+	<ui:define name="content">
+	<p:messages id="msj" showDetail="false" autoUpdate="true" globalOnly="true"/>
+	<h:form >
+		<h:panelGrid columns="4">
+			<p:outputLabel value="Persona" style="font-weight:bold;"/>
+			<p:selectOneMenu id="cboPersona" value="#{usuarioFormBean.persona}" required="true" requiredMessage="debe ser "
+								rendered="#{usuarioFormBean.usuario.idUsuario==0}" converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"
+								noSelectionOption="true"/>
+				<f:selectItems value="#{usuarioFormBean.lstPersonas}" var="per"
+								itemLabel="#{per.nombreCompleto}" itemValue="#{per}"/>
+			</p:selectOneMenu>
+			<p:outputLabel value="#{usuarioFormBean.persona.nombreCompleto}"
+				rendered="#{usuarioFormBean.usuario.idUsuario!=0}"/>
+			<p:message for="cboPersona"/>
+			<p:tooltip for="cboPersona" value="Elija una persona para el Usuario" />
+			
+			<p:outputLabel value="Perfil" style="font-weight:bold;"/>
+			
+			<p:selectOneMenu id="cboPerfil" value="#{usuarioFormBean.perfil}" required="true" requiredMessage="debe ser "
+								rendered="#{usuarioFormBean.usuario.idUsuario==0}" converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"
+								noSelectionOption="true"/>
+				<f:selectItems value="#{usuarioFormBean.lstPerfiles}" var="perf"
+								itemLabel="#{perf.nombre}" itemValue="#{perf}"/>
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="#{usuarioFormBean.perfil.nombre}"
+				rendered="#{usuarioFormBean.usuario.idUsuario!=0}"/>
+				
+			<p:message for="cboPerfil"/>
+			<p:tooltip for="cboPerfil" value="Elija un perfil para el Usuario" />
+			
+			
+			
+			<p:outputLabel value="Usuario" style="font-weight:bold;"/>
+			<p:inputText value="#{usuarioFormBean.usuario.username}" id="txtUsername" rendered="#{usuarioFormBean.usuario.idUsuario==0}"/>
+			<p:outputLabel value="#{usuarioFormBean.usuario.username}"
+				rendered="#{usuarioFormBean.usuario.idUsuario!=0}"/>
+			<p:message for="txtUsername"/>
+			<p:tooltip for="txtUsername" value="Elija un nombre de Usuario" />
+			
+			<p:outputLabel value="Pasword" style="font-weight:bold;"/>
+			<p:inputText value="#{usuarioFormBean.usuario.password}" id="txtPassword" rendered="#{usuarioFormBean.usuario.idUsuario==0}"/>
+			<p:outputLabel value="#{usuarioFormBean.usuario.password}"
+				rendered="#{usuarioFormBean.usuario.idUsuario!=0}"/>
+			<p:message for="txtPassword"/>
+			<p:tooltip for="txtPassword" value="Elija un Password de Usuario" />
+			
+			
+			
+		</h:panelGrid>
+		
+		<p:commandButton value="Aceptar" rendered="#{usuarioFormBean.usuario.idUsuario eq 0}" 
+							action="usuario?faces-redirect=true" actionListener="#{usuarioFormBean.registrar()}" update="@form" />
+							
+		<p:commandButton value="Cancelar" rendered="#{usuarioFormBean.usuario.idUsuario eq 0}" 
+							action="usuario?faces-redirect=true" immediate="true"/>
+							
+		<p:commandButton value="Aceptar" rendered="#{usuarioFormBean.usuario.idUsuario != 0}" 
+							action="usuario?faces-redirect=true" immediate="true" />
+		
+		
+	</h:form>
+	</ui:define>
+</ui:composition>
+
+</body> 
+</html>

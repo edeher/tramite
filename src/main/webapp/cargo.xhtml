@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form id="frm">
+			<p:commandButton value="Nuevo" oncomplete="PF('wdlgCargo').show();" />
+				<p:dataTable id="dtCargo" widgetVar="formatosTable" value="#{cargoBean.lstCargo}" var="ca">
+				<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{ca.idCargo}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{ca.idCargo}"/>
+						
+					</p:column>
+					<p:column headerText="Area" filterBy="#{ca.area.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{ca.area.nombre}"/>
+						
+					</p:column>
+					<p:column headerText="nombre" filterBy="#{ca.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{ca.nombre}"/>
+						
+					</p:column>
+					<p:column headerText="Jefe de Area" style="width:120px">
+						<p:outputLabel value="#{ca.jefearea}" >
+							<f:converter converterId="jefeareaConverter" /> 
+							<p:graphicImage library="images" name="check.jpg" rendered="#{ca.jefearea eq 1}"/>
+							<p:graphicImage library="images" name="close.png" rendered="#{ca.jefearea eq 0}"/>
+						</p:outputLabel>
+						
+					</p:column>
+					<p:column style="width:30px">
+						<p:commandLink actionListener="#{cargoBean.seleccionar(ca)}" 
+							oncomplete="PF('wdlgCargo').show();" update="frm:dlgCargo">
+							<p:graphicImage library="images" name="lupa.png" />
+						</p:commandLink>
+					</p:column>
+				
+				</p:dataTable>
+				
+				<p:dialog id="dlgCargo" widgetVar="wdlgCargo">
+					<p:panelGrid columns="2">
+					
+					
+					
+						<p:outputLabel value="Area" style="font-weight:bold;" />
+						<p:selectOneMenu id="cboArea" value="#{cargoBean.area}"														
+							converter="omnifaces.SelectItemsConverter">
+							<f:selectItem
+								itemLabel="--seleccione--"
+								itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItems value="#{cargoBean.lstArea}" var="ar"
+								itemLabel="#{ar.nombre}" itemValue="#{ar}" />
+						</p:selectOneMenu>				
+						
+						<p:message for="cboArea" />
+						<p:tooltip for="cboArea" value="Elija un Area para el Item" />
+						
+						
+						
+						<p:outputLabel value="nombre" />
+						<p:inputText value="#{cargoBean.cargo.nombre}" />
+						
+						
+						
+						<p:outputLabel value="Jefe de Area" style="font-weight:bold;" />
+						<p:selectOneMenu id="Jefe" value="#{cargoBean.cargo.jefearea}">
+							<f:selectItem itemLabel="--seleccione " itemValue="#{null}" noSelectionOption="true"/>
+							<f:selectItem itemLabel="si" itemValue="1"/>
+							<f:selectItem itemLabel="no" itemValue="0"/>
+							
+						</p:selectOneMenu>
+						
+						
+						
+					
+					</p:panelGrid>
+					
+					<h:panelGroup layout="block" style="float: right">
+						<p:commandButton value="Aceptar"
+							actionListener="#{cargoBean.operar()}" ajax="false"
+							action="cargo?faces-redirect=true" />
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wdlgCargo').hide();" />
+					</h:panelGroup>
+				
+				</p:dialog>
+				
+				
+				
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

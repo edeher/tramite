@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+		<h2>Area</h2>
+
+			<h:form id="frm" enctype="multipart/form-data">
+
+				<p:commandButton value="Nuevo" oncomplete="PF('wdlgArea').show();" />
+
+				<p:dataTable id="dtAreas" widgetVar="formatosTable" value="#{areaBean.lstAreas}" var="A"
+					rows="">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{A.idArea}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{A.idArea}" />
+					</p:column>
+					<p:column headerText="nombre" filterBy="#{A.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{A.nombre}" />
+					</p:column>
+					<p:column headerText="descripcion" filterBy="#{A.descripcion}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{A.descripcion}" />
+					</p:column>
+					<p:column>
+						<p:commandLink value="Modificar"
+							actionListener="#{areaBean.seleccionar(A)}"
+							oncomplete="PF('wdlgArea').show();" update="frm:dlgArea">
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+
+				<p:dialog id="dlgArea" widgetVar="wdlgArea" modal="true">
+					<p:panelGrid columns="2">
+						<p:panelGrid columns="2">
+							<p:outputLabel value="nombre" />
+							<p:inputText value="#{areaBean.area.nombre}" />
+							<p:outputLabel value="decipcion" />
+							<p:inputText value="#{areaBean.area.descripcion}" />
+						</p:panelGrid>
+
+						<p:panelGrid columns="2">
+							<p:outputLabel value="item" />
+							<p:inputText value="#{areaBean.itemTipoTramite.item}" />
+							<p:outputLabel value="plazo" />
+							<p:inputText value="#{areaBean.itemTipoTramite.plazo}" />
+
+							<p:commandButton value="Agregar"
+								actionListener="#{areaBean.agregar()}" update="itemtipotramite" />
+
+							<p:dataList id="itemtipotramite"
+								value="#{areaBean.lstItemTipoTramite}" var="item" rows="5"
+								paginator="true" emptyMessage="Sin Item de tipo tramite">
+								<p:outputLabel value="#{item.plazo}" />-
+							<p:outputLabel value="#{item.item}" />
+								<p:commandLink value="remover"
+									actionListener="#{areaBean.remover(item)}"
+									update="itemtipotramite" />
+							</p:dataList>
+						</p:panelGrid>
+					</p:panelGrid>
+
+					<h:panelGroup layout="block" style="float: right">
+						<p:commandButton value="Aceptar"
+							actionListener="#{areaBean.operar()}" ajax="false"
+							action="area?faces-redirect=true" />
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wdlgArea').hide();" />
+					</h:panelGroup>
+
+
+				</p:dialog>
+
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+
+</body>
+</html>

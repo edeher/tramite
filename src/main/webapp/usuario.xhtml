@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form id="frm" >
+				<p:commandButton value="Nuevo" action="usuarioForm" />
+				
+				<p:dataTable value="#{usuarioBean.lstUsuarios}" var="u">
+					<p:column headerText="Persona">
+						<p:outputLabel value="#{u.persona.nombreCompleto}"/>
+					</p:column>
+					<p:column headerText="Perfil">
+						<p:outputLabel value="#{u.perfil.descripcion}"/>
+					</p:column>
+					
+					<p:column headerText="Usuario">
+						<p:outputLabel value="#{u.username}"/>
+					</p:column>
+					
+					
+					<p:column headerText="Estado" style="width:120px">
+						<p:outputLabel value="#{u.estado}" >
+							<f:converter converterId="estadoConverter" /> 
+							<p:graphicImage library="images" name="check.jpg" rendered="#{u.estado eq 1}"/>
+							<p:graphicImage library="images" name="close.png" rendered="#{u.estado eq 0}"/>
+						</p:outputLabel>
+						
+					</p:column>
+					
+					<p:column style="width:30px">
+						<p:commandLink actionListener="#{usuarioBean.seleccionar(u)}" action="usuarioForm">
+							<p:graphicImage library="images" name="lupa.png" />
+						</p:commandLink>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+
+</body> 
+</html>

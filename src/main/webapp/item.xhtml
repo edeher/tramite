@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+
+		<ui:define name="content">
+			<h:form id="frm">
+				<p:commandButton value="Nuevo" action="itemform" />
+				
+				<p:dataTable id="dtItem" widgetVar="formatosTable" value="#{itemBean.lstItemTipoTramite}" var="i">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					
+					<p:column headerText="id" filterBy="#{i.idItemTipoTramite}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{i.idItemTipoTramite}" />
+					</p:column>
+					<p:column headerText="Area" filterBy="#{i.area.nombre}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{i.area.nombre}" />
+					</p:column>
+					<p:column headerText="Tipo de tramite"
+						filterBy="#{i.tipotramite.descripcion}" filterMatchMode="contains"
+						filterStyle="display:none">
+						<p:outputLabel value="#{i.tipotramite.descripcion}" />
+					</p:column>
+					<p:column headerText="item" filterBy="#{i.item}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{i.item}" />
+					</p:column>
+					<p:column headerText="Plazo" filterBy="#{i.plazo}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{i.plazo}" />
+					</p:column>
+					
+					<p:column style="width:30px">
+						<p:commandLink actionListener="#{itemBean.seleccionar(i)}" action="itemform">
+							<p:graphicImage library="images" name="lupa.png" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

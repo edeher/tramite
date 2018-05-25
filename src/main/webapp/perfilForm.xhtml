@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form>
+				<h2>Detalle Perfil #{perfilFormBean.perfil.nombre}</h2>
+				<h:panelGrid columns="4">
+					<p:outputLabel for="txtNombre" value="Nombre" />
+					<p:inputText id="txtNombre" value="#{perfilFormBean.perfil.nombre}" required="true" />
+					<p:message for="txtNombre"/>
+					<p:tooltip for="txtNombre" value="Nombre del perfil"/>
+					
+					<p:outputLabel for="txtDescripcion" value="Descripcion" />
+					<p:inputText id="txtDescripcion" value="#{perfilFormBean.perfil.descripcion }" required="true" />
+					<p:message for="txtDescripcion"/>
+					<p:tooltip for="txtDescripcion" value="Nombre del perfil"/>
+					
+				</h:panelGrid>
+
+				<p:separator />
+				<p:commandButton value="Aceptar" action="perfil?faces-redirect=true" 
+								actionListener="#{perfilFormBean.operar()}" update="@form"/>
+				
+				<p:commandButton value="Cancelar" action="perfil?faces-redirect=true" immediate="true"/>
+
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+
+</h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form id="frm" enctype="multipart/form-data">
+
+				<!-- 	se llama al modal con el atributo onclik=""PF('dlg1').show()" y dlg1 es el nombre del modal -->
+
+				<p:commandButton value="Nuevo" oncomplete="PF('dlg1').show();"
+					actionListener="#{personaBean.limpiarControles()}"
+					update="frm:dlgPersona" />
+
+				<!-- **************************************************************************************		 -->
+
+				<p:dataTable id="dtPersonas" widgetVar="formatosTable"
+					value="#{personaBean.lstPersonas}" var="per" rows="10">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="buscarFiltros('formatosTable', this);"
+								style="width:150px" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+					<p:column headerText="id" filterBy="#{per.idPersona}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{per.idPersona}" />
+					</p:column>
+					<p:column headerText="nombres" filterBy="#{per.nombres}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{per.nombres}" />
+					</p:column>
+					<p:column headerText="apellidos" filterBy="#{per.apellidos}"
+						filterMatchMode="contains" filterStyle="display:none">
+						<p:outputLabel value="#{per.apellidos}" />
+					</p:column>
+					<p:column>
+						<p:commandLink value="Modificar" id="lnkSeleccionar"
+							actionListener="#{personaBean.seleccionar(per)}"
+							oncomplete="PF('dlg1').show();" update="frm:dlgPersona">
+
+						</p:commandLink>
+
+					</p:column>
+
+				</p:dataTable>
+
+				<!-- Este es el modal y el atributo widgetvar es el id de model en jajascript  -->
+
+				<p:dialog id="dlgPersona" header="#{personaBean.titulo}"
+					widgetVar="dlg1" minHeight="40" modal="true" resizable="false"
+					closeOnEscape="true">
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Nombres" />
+						<p:inputText value="#{personaBean.persona.nombres}" />
+
+						<p:outputLabel value="Apellidos" />
+						<p:inputText value="#{personaBean.persona.apellidos}" />
+
+						<p:outputLabel value="DNI" />
+						<p:inputText value="#{personaBean.persona.dni}" maxlength="8" />
+
+						<p:outputLabel value="sexo" />
+						<p:selectOneRadio value="#{personaBean.persona.sexo}">
+							<f:selectItem itemLabel="M" itemValue="M" />
+							<f:selectItem itemLabel="F" itemValue="F" />
+						</p:selectOneRadio>
+
+						<p:outputLabel value="Direccion" />
+						<p:inputTextarea value="#{personaBean.persona.direccion}"
+							counter="txtContador" maxlength="100"
+							counterTemplate="{0} caracteres restantes" autoResize="false" />
+						<h:column />
+						<h:outputText id="txtContador" />
+
+						<p:outputLabel value="Telefono" />
+						<p:inputText value="#{personaBean.persona.telefono}" maxlength="9" />
+
+						<p:outputLabel value="Correo" />
+						<p:inputText value="#{personaBean.persona.correo}" />
+
+
+					</h:panelGrid>
+					<p:commandButton value="Aceptar"
+						actionListener="#{personaBean.operar()}" ajax="false"
+						action="persona?faces-redirect=true" onclick="PF('dlg1').hide();" />
+					<p:commandButton value="Cancelar" onclick="PF('dlg1').hide();"
+						immediate="true" />
+				</p:dialog>
+				<!-- **************************************************************************************		 -->
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+
+</body>
+</html>

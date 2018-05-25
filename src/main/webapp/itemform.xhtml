@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<p:messages id="msj" showDetail="false" autoUpdate="true"
+				globalOnly="true" />
+			<h:form>
+		
+				<h:panelGrid columns="4">
+				
+					<p:outputLabel value="Area" style="font-weight:bold;" />
+					
+					<p:selectOneMenu id="cboArea" value="#{itemBeanForm.area }"
+						required="true" requiredMessage="debe ser "
+						rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite==0}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItems value="#{itemBeanForm.lstArea}" var="ar"
+							itemLabel="#{ar.nombre}" itemValue="#{ar}" />
+					</p:selectOneMenu>
+					
+					<p:selectOneMenu id="cboArea1" value="#{itemBeanForm.area }"
+						required="true" requiredMessage="debe ser "
+						rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite!=0}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="#{itemBeanForm.area.nombre}" itemValue="#{itemBeanForm.area}"
+							 />
+						<f:selectItems value="#{itemBeanForm.lstArea}" var="ar"
+							itemLabel="#{ar.nombre}" itemValue="#{ar}" />
+					</p:selectOneMenu>
+						
+					<p:message for="cboArea" />
+					<p:tooltip for="cboArea" value="Elija una area para el item" />
+
+					<p:outputLabel value="tipo tramite" style="font-weight:bold;" />
+					
+					<p:selectOneMenu id="cboTipoTra"
+						value="#{itemBeanForm.tipotramite}" required="true"
+						requiredMessage="debe ser "
+						rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite==0}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem itemLabel="--Seleccione--" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItems value="#{itemBeanForm.lstTipoTramite}" var="ti"
+							itemLabel="#{ti.descripcion}" itemValue="#{ti}" />
+					</p:selectOneMenu>
+
+					<p:selectOneMenu id="cboTipoTra1"
+						value="#{itemBeanForm.tipotramite}" required="true"
+						requiredMessage="debe ser "
+						rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite!=0}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem  itemLabel="#{itemBeanForm.tipotramite.descripcion}"  itemValue="#{itemBeanForm.tipotramite}"
+							 />
+						<f:selectItems value="#{itemBeanForm.lstTipoTramite}" var="ti"
+							itemLabel="#{ti.descripcion}" itemValue="#{ti}" />
+					</p:selectOneMenu>
+
+					<p:message for="cboTipoTra" />
+					<p:tooltip for="cboTipoTra" value="Elija un tipo para el item" />
+
+
+					<p:outputLabel value="Item" style="font-weight:bold;" />
+					<p:inputText value="#{itemBeanForm.itemtipotramite.item}"
+						id="txtItem" />
+						<p:message for="txtItem"/>
+					<p:tooltip for="txtItem" value="Elija un item" />
+
+					<p:outputLabel value="plazo" style="font-weight:bold;" />
+					<p:inputText value="#{itemBeanForm.itemtipotramite.plazo}"
+						id="txtPlazo" />
+						<p:message for="txtPlazo"/>
+					<p:tooltip for="txtPlazo" value="Elija un plazo apra el item" />
+
+
+
+				</h:panelGrid>
+				
+				<p:commandButton value="Aceptar"
+					rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite eq 0}"
+					action="item?faces-redirect=true"
+					actionListener="#{itemBeanForm.registrar()}" update="@form" />
+
+				<p:commandButton value="Cancelar"
+					rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite eq 0}"
+					action="item?faces-redirect=true" immediate="true" />
+
+				<p:commandButton value="Aceptar"
+					rendered="#{itemBeanForm.itemtipotramite.idItemTipoTramite != 0}"
+					action="item?faces-redirect=true" actionListener="#{itemBeanForm.registrar()}" update="@form" />
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>
