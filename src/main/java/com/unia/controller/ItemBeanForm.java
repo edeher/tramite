@@ -19,6 +19,10 @@ import com.unia.service.IAreaService;
 import com.unia.service.IItemTipoTramiteService;
 import com.unia.service.ITipoTramiteService;
 
+
+
+//combos en paginas diferentes
+
 @Named
 @ViewScoped
 public class ItemBeanForm implements Serializable {

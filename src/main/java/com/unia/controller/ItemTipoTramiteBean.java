@@ -16,13 +16,15 @@ import com.unia.service.IAreaService;
 import com.unia.service.IItemTipoTramiteService;
 import com.unia.service.ITipoTramiteService;
 
-
+//problema de combos en modales resuelto
 
 
 
 @Named
 @ViewScoped
 public class ItemTipoTramiteBean implements Serializable{
+	
+
 	
 	@Inject
 	private ItemTipoTramite itemtipotramite;
