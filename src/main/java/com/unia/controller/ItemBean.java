@@ -14,7 +14,7 @@ import org.omnifaces.util.Faces;
 import com.unia.model.ItemTipoTramite;
 import com.unia.service.IItemTipoTramiteService;
 
-//llego a linu y sale
+//llego a linux y sale
 
 @Named
 @ViewScoped
